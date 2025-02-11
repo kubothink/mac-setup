@@ -1,0 +1,51 @@
+---
+- name: Setup Homebrew packages on macOS
+  hosts: localhost
+  become: false # macOSではsudoを使用しない
+  vars:
+    homebrew_taps:
+      - homebrew/core
+      - homebrew/cask
+
+    homebrew_packages:
+      - git
+      - wget
+      - tree
+      # 必要なパッケージを追加
+
+    homebrew_cask_packages:
+      - docker
+      - iterm2
+      - slack
+      - github-copilot-for-xcode
+      - google-chrome
+      - inkscape
+      - ngrok
+      - qlmarkdown
+      - xcodes
+      - visual-studio-code
+      # 必要なアプリケーションを追加
+
+  tasks:
+    - name: Ensure Homebrew taps are added
+      community.general.homebrew_tap:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ homebrew_taps }}"
+
+    - name: Update Homebrew and upgrade all packages
+      community.general.homebrew:
+        update_homebrew: true
+        upgrade_all: true
+
+    - name: Install Homebrew packages
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ homebrew_packages }}"
+
+    - name: Install Homebrew Cask applications
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ homebrew_cask_packages }}"

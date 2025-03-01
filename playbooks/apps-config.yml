@@ -1,0 +1,4 @@
+- name: Copy iTerm2 preferences
+  copy:
+    src: files/com.googlecode.iterm2.plist
+    dest: ~/Library/Preferences/com.googlecode.iterm2.plist

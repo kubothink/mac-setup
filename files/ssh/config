@@ -1,0 +1,233 @@
+Host as_dev
+  HostName as_dev
+
+Host *
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedAlgorithms +ssh-rsa
+  KexAlgorithms +diffie-hellman-group1-sha1
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+
+# --- Yui Works ---
+Host sakura
+ HostName 49.212.155.41
+ User centos
+ IdentityFile ~/.ssh/id_rsa
+
+Host yui-aws-dev
+ HostName 57.181.214.198
+ User ec2-user
+ IdentityFile ~/.ssh/aws-dev.pem
+
+# --- Manabelle ---
+Host hendrix
+ HostName 133.242.53.223
+ User kubota
+ IdentityFile ~/.ssh/hendrix
+
+Host sting
+ HostName 153.126.132.121
+ User kubota
+ IdentityFile ~/.ssh/id_rsa
+
+
+Host manabelle-dev
+ HostName 153.126.161.211
+ User kubota
+ IdentityFile ~/.ssh/id_rsa
+
+
+
+# --- dricos ---
+
+Host dricos
+  HostName 153.120.38.198
+  User git
+  IdentityFile ~/.ssh/pattle_rsa
+  Port 22
+
+# dricos Ticket本番サーバー
+Host dricos_prod
+  HostName 160.251.148.51 
+  User c3859513
+  IdentityFile ~/.ssh/dricos_prod_rsa
+  Port 8022
+  IdentitiesOnly yes
+
+Host hs_pro
+  HostName 153.126.174.170
+  User kubota
+  IdentityFile ~/.ssh/id_rsa
+  Port 22
+
+Host hs_dev
+  HostName 153.120.39.139
+  User kubota
+  IdentityFile ~/.ssh/id_rsa
+  Port 22
+
+# git
+Host dricos_git
+    HostName gb.take-san.com
+    Port 10203
+    User git
+    IdentityFile ~/.ssh/dricos_git_rsa
+
+# デモ・開発系ホストサーバー
+# bms-prototype.com
+# demo.bms-prototype.com
+# develop.bms-prototype.com
+# grande-dev.com
+# liff-demo.grande-dev.com
+# liff.grande-dev.com
+# payment-staging.grande-dev.com
+# payment.grande-dev.com
+# 
+Host dricos_conoha
+  HostName www315.conoha.ne.jp
+  Port 8022
+  User c9639068
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa
+  RemoteCommand cd /home/c9639068/public_html; $SHELL -il
+
+# BMS本番
+Host bms
+  HostName www232.conoha.ne.jp
+  Port 8022
+  User c3261871
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa
+
+  
+Host hs_git
+  HostName 153.126.200.130
+  User kubota
+  IdentityFile ~/.ssh/id_rsa
+  Port 22
+
+# レプリカサーバー
+Host dricos_replica
+  HostName 13.230.186.221
+  User kubota
+  IdentityFile ~/.ssh/id_rsa
+
+# --- LIG WbyT ---
+Host github-lig
+  HostName github.com
+  IdentityFile ~/.ssh/github_lig_rsa
+  User git
+  Port 22
+  TCPKeepAlive yes
+  IdentitiesOnly yes
+
+Host github-woven
+   HostName github.com
+   IdentityFile ~/.ssh/id_ed25519_woven
+   User git
+   Port 22
+   TCPKeepAlive yes
+   IdentitiesOnly yes
+
+# ---- 使っていない ------
+# つながらない
+Host hs_aws_stage
+ HostName 52.78.212.61
+ Port 22
+ User ddricos
+ IdentityFile ~/.ssh/dricos_aws_staging.pem
+
+
+# つながらない
+Host hs_aws_product
+ HostName 13.113.210.201
+ Port 22
+ User ddricos
+ IdentityFile ~/.ssh/dricos_aws_production.pem
+
+
+# つながらない
+Host conoha_dricos
+  HostName 150.95.214.67
+  Port 4892
+  User kubota
+  IdentityFile  ~/.ssh/id_rsa
+
+# --- Womens Kampo ---
+
+Host womens_wp_old
+ HostName sv2225.xserver.jp
+ Port 10022
+ User womanskanpo
+ IdentityFile ~/.ssh/id_rsa_womens_wp
+
+Host womens_wp
+ HostName 183.90.237.5
+ Port 10022
+ User womenskampo
+ IdentityFile ~/.ssh/id_rsa_womens_wp
+
+Host womens_sakura
+ HostName 160.16.88.27
+ Port 11112
+ User kubota
+ IdentityFile ~/.ssh/womens_rsa
+
+Host womens_conoha
+ HostName 160.251.11.103
+ Port 11112
+ User kubota
+ IdentityFile ~/.ssh/womens_rsa
+
+
+# --- Suit Travel ---
+Host st_dev
+  HostName ec2-35-74-117-35.ap-northeast-1.compute.amazonaws.com
+  User ec2-user
+  Port 22
+  IdentityFile ~/.ssh/tuapuri.pem
+
+
+Host st_app1
+  HostName ec2-35-73-205-53.ap-northeast-1.compute.amazonaws.com
+  User ec2-user
+  Port 22
+  IdentityFile ~/.ssh/tuapuri.pem
+
+
+Host st_app2
+  HostName ec2-18-176-71-38.ap-northeast-1.compute.amazonaws.com
+  User ec2-user
+  Port 22
+  IdentityFile ~/.ssh/tuapuri.pem
+
+
+Host st_admin
+  HostName ec2-54-95-149-93.ap-northeast-1.compute.amazonaws.com
+  User ec2-user
+  Port 22
+  IdentityFile ~/.ssh/tuapuri.pem
+
+
+
+# --- For Mac Setting ---
+AddKeysToAgent yes
+UseKeychain yes
+
+
+# --- SourceTree Generated ---
+Host yutaka-Bitbucket
+	HostName bitbucket.org
+	User yutaka
+	PreferredAuthentications publickey
+	IdentityFile /Users/yutaka/.ssh/yutaka_Bitbucket
+# ----------------------------
+
+# --- SourceTree Generated ---
+Host github github.com
+	HostName github.com
+	User git
+	PreferredAuthentications publickey
+	IdentityFile /Users/yutaka/.ssh/github_rsa2019
+# ----------------------------

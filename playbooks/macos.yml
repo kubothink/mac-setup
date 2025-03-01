@@ -1,0 +1,255 @@
+---
+- name: Configure macOS settings
+  hosts: localhost
+  tasks:
+    # 1. Basic UI Settings
+    - name: Configure Dock and Finder
+      block:
+        - name: Set dock preferences
+          osx_defaults:
+            domain: com.apple.dock
+            key: autohide
+            type: bool
+            value: true
+
+        - name: Set finder preferences
+          osx_defaults:
+            domain: com.apple.finder
+            key: ShowPathbar
+            type: bool
+            value: true
+
+    # 2. Input Device Settings
+    - name: Configure Input Devices
+      block:
+        # Built-in Trackpad settings
+        - name: Configure built-in trackpad settings
+          ansible.builtin.osx_defaults:
+            domain: com.apple.AppleMultitouchTrackpad
+            key: "{{ item.key }}"
+            type: "{{ item.type }}"
+            value: "{{ item.value }}"
+            state: present
+          with_items:
+            - { key: "ActuateDetents", type: "int", value: 1 }
+            - { key: "Clicking", type: "int", value: 1 }
+            - { key: "DragLock", type: "int", value: 0 }
+            - { key: "Dragging", type: "int", value: 0 }
+            - { key: "FirstClickThreshold", type: "int", value: 1 }
+            - { key: "ForceSuppressed", type: "int", value: 0 }
+            - { key: "HIDScrollZoomModifierMask", type: "int", value: 262144 }
+            - { key: "SecondClickThreshold", type: "int", value: 1 }
+            - { key: "TrackpadCornerSecondaryClick", type: "int", value: 0 }
+            - { key: "TrackpadFiveFingerPinchGesture", type: "int", value: 2 }
+            - {
+                key: "TrackpadFourFingerHorizSwipeGesture",
+                type: "int",
+                value: 2,
+              }
+            - { key: "TrackpadFourFingerPinchGesture", type: "int", value: 2 }
+            - {
+                key: "TrackpadFourFingerVertSwipeGesture",
+                type: "int",
+                value: 2,
+              }
+            - { key: "TrackpadHandResting", type: "int", value: 1 }
+            - { key: "TrackpadHorizScroll", type: "int", value: 1 }
+            - { key: "TrackpadMomentumScroll", type: "int", value: 1 }
+            - { key: "TrackpadPinch", type: "int", value: 1 }
+            - { key: "TrackpadRightClick", type: "int", value: 1 }
+            - { key: "TrackpadRotate", type: "int", value: 1 }
+            - { key: "TrackpadScroll", type: "int", value: 1 }
+            - { key: "TrackpadThreeFingerDrag", type: "int", value: 0 }
+            - {
+                key: "TrackpadThreeFingerHorizSwipeGesture",
+                type: "int",
+                value: 0,
+              }
+            - { key: "TrackpadThreeFingerTapGesture", type: "int", value: 2 }
+            - {
+                key: "TrackpadThreeFingerVertSwipeGesture",
+                type: "int",
+                value: 0,
+              }
+            - {
+                key: "TrackpadTwoFingerDoubleTapGesture",
+                type: "int",
+                value: 1,
+              }
+            - {
+                key: "TrackpadTwoFingerFromRightEdgeSwipeGesture",
+                type: "int",
+                value: 3,
+              }
+            - { key: "USBMouseStopsTrackpad", type: "int", value: 0 }
+            - { key: "UserPreferences", type: "int", value: 1 }
+            - { key: "version", type: "int", value: 12 }
+
+        # Bluetooth Trackpad settings
+        - name: Configure bluetooth trackpad settings
+          ansible.builtin.osx_defaults:
+            domain: com.apple.driver.AppleBluetoothMultitouch.trackpad
+            key: "{{ item.key }}"
+            type: "{{ item.type }}"
+            value: "{{ item.value }}"
+            state: present
+          with_items:
+            - { key: "Clicking", type: "int", value: 0 }
+            - { key: "DragLock", type: "int", value: 0 }
+            - { key: "Dragging", type: "int", value: 0 }
+            - { key: "TrackpadCornerSecondaryClick", type: "int", value: 0 }
+            - { key: "TrackpadFiveFingerPinchGesture", type: "int", value: 2 }
+            - {
+                key: "TrackpadFourFingerHorizSwipeGesture",
+                type: "int",
+                value: 2,
+              }
+            - { key: "TrackpadFourFingerPinchGesture", type: "int", value: 2 }
+            - {
+                key: "TrackpadFourFingerVertSwipeGesture",
+                type: "int",
+                value: 2,
+              }
+            - { key: "TrackpadHandResting", type: "int", value: 1 }
+            - { key: "TrackpadHorizScroll", type: "int", value: 1 }
+            - { key: "TrackpadMomentumScroll", type: "int", value: 1 }
+            - { key: "TrackpadPinch", type: "int", value: 1 }
+            - { key: "TrackpadRightClick", type: "int", value: 1 }
+            - { key: "TrackpadRotate", type: "int", value: 1 }
+            - { key: "TrackpadScroll", type: "int", value: 1 }
+            - { key: "TrackpadThreeFingerDrag", type: "int", value: 0 }
+            - {
+                key: "TrackpadThreeFingerHorizSwipeGesture",
+                type: "int",
+                value: 2,
+              }
+            - { key: "TrackpadThreeFingerTapGesture", type: "int", value: 2 }
+            - {
+                key: "TrackpadThreeFingerVertSwipeGesture",
+                type: "int",
+                value: 2,
+              }
+            - {
+                key: "TrackpadTwoFingerDoubleTapGesture",
+                type: "int",
+                value: 1,
+              }
+            - {
+                key: "TrackpadTwoFingerFromRightEdgeSwipeGesture",
+                type: "int",
+                value: 3,
+              }
+            - { key: "USBMouseStopsTrackpad", type: "int", value: 0 }
+            - { key: "UserPreferences", type: "int", value: 1 }
+            - { key: "version", type: "int", value: 5 }
+
+    # 3. Notification and Widgets
+    - name: Configure Notifications
+      block:
+        - name: Configure Today View preferences
+          ansible.builtin.osx_defaults:
+            domain: com.apple.notificationcenterui
+            key: TodayView
+            type: dict
+            value:
+              keyWidget: "com.apple.iCal.CalendarNC"
+              order:
+                - "com.apple.reminders.macOSTodayExtension"
+                - "com.apple..NowPlayingWidgetContainer.NowPlayingWidget"
+                - "com.apple.iCal.CalendarNC"
+                - "com.apple.ncplugin.stocks"
+                - "com.apple.ncplugin.weather"
+                - "com.omnigroup.OmniFocus2.Today"
+                - "com.apple.ncplugin.calculator"
+                - "com.apple.ncplugin.WorldClock"
+                - "it.bloop.airmail2.Airmail-Today"
+                - "com.malteundjan.focus-osx.focus-mac-today"
+                - "com.flexibits.fantastical2.mac.today-widget"
+              preferences:
+                "com.apple.nc.disclosures":
+                  enabled: 1
+                "com.apple.nc.today.date":
+                  enabled: 1
+                "com.apple.nc.today.dnd":
+                  enabled: 1
+                "com.apple.nc.today.summary":
+                  enabled: 1
+                "com.apple.nc.tomorrow.summary":
+                  enabled: 1
+
+        - name: Set font style
+          ansible.builtin.osx_defaults:
+            domain: com.apple.notificationcenterui
+            key: fontStyle
+            type: int
+            value: 0
+            state: present
+
+        - name: Set selected tab
+          ansible.builtin.osx_defaults:
+            domain: com.apple.notificationcenterui
+            key: selectedTab
+            type: string
+            value: notifications
+            state: present
+
+        - name: Set widgets version
+          ansible.builtin.osx_defaults:
+            domain: com.apple.notificationcenterui
+            key: "widgets.vers"
+            type: int
+            value: 1
+            state: present
+
+    # 4. Spaces and Mission Control
+    - name: Configure Spaces and Mission Control
+      block:
+        - name: Configure application space bindings
+          ansible.builtin.osx_defaults:
+            domain: com.apple.spaces
+            key: "app-bindings"
+            type: dict
+            value:
+              "com.google.chrome": ""
+              "com.readdle.smartemail-mac": "026DA079-5596-48AD-9A5F-D3C805570B98"
+              "com.torusknot.sourcetreenotmas": "EE1335D7-F74D-422C-AE41-52C1D93A7E85"
+              "it.bloop.airmail2": "026DA079-5596-48AD-9A5F-D3C805570B98"
+              "jp.yui-works.tasque": "54264A01-6BB1-4621-BDBB-FE9474C5C2B5"
+              "notion.id": "54264A01-6BB1-4621-BDBB-FE9474C5C2B5"
+
+        - name: Configure Mission Control settings
+          ansible.builtin.osx_defaults:
+            domain: com.apple.dock
+            key: "{{ item.key }}"
+            type: "{{ item.type }}"
+            value: "{{ item.value }}"
+          with_items:
+            - { key: "mru-spaces", type: "bool", value: false }
+            - { key: "expose-animation-duration", type: "float", value: 0.1 }
+
+        - name: Configure Hot Corners
+          ansible.builtin.osx_defaults:
+            domain: com.apple.dock
+            key: "{{ item.key }}"
+            type: "{{ item.type }}"
+            value: "{{ item.value }}"
+          with_items:
+            - { key: "wvous-tl-corner", type: "int", value: 2 }
+            - { key: "wvous-tr-corner", type: "int", value: 4 }
+            - { key: "wvous-bl-corner", type: "int", value: 3 }
+            - { key: "wvous-br-corner", type: "int", value: 5 }
+
+    # 5. Service Restarts
+    - name: Restart Services
+      block:
+        - name: Restart UI services
+          ansible.builtin.command: killall SystemUIServer
+          ignore_errors: true
+
+        - name: Restart Notification Center
+          ansible.builtin.command: killall NotificationCenter
+          ignore_errors: true
+
+        - name: Restart Dock
+          ansible.builtin.command: killall Dock
+          ignore_errors: true

@@ -1,0 +1,10 @@
+- name: Complete Mac Setup
+  hosts: localhost
+
+  import_playbook: homebrew.yml
+  import_playbook: macos.yml
+  import_playbook: dotfiles.yml
+  import_playbook: dev-tools.yml
+  import_playbook: vscode.yml
+  import_playbook: security.yml
+  import_playbook: apps-config.yml

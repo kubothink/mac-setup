@@ -1,0 +1,14 @@
+- name: Ensure .ssh directory exists
+  file:
+    path: ~/.ssh
+    state: directory
+    mode: "0700"
+
+- name: Copy SSH keys
+  copy:
+    src: files/ssh/{{ item }}
+    dest: ~/.ssh/{{ item }}
+    mode: "0600"
+  with_items:
+    - id_rsa
+    - id_rsa.pub

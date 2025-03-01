@@ -1,0 +1,10 @@
+- name: Setup Node.js
+  shell: |
+    source ~/.nvm/nvm.sh
+    nvm install 18
+    nvm alias default 18
+
+- name: Setup Ruby versions
+  shell: |
+    rbenv install 3.2.0
+    rbenv global 3.2.0

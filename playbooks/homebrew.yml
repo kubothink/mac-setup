@@ -6,12 +6,41 @@
     homebrew_taps:
       - homebrew/core
       - homebrew/cask
+      - dart-lang/dart
+      - leoafarias/fvm
+      - shivammathur/php
 
     homebrew_packages:
-      - git
-      - wget
+      - act
+      - ansible
+      - cocoapods
+      - coreutils
+      - dart
+      - ffmpeg
+      - fish
+      - git-lfs
+      - gobject-introspection
+      - guile
+      - inetutils
+      - jq
+      - jsoncpp
+      - fvm
+      - mint
+      - mkcert
+      - nodebrew
+      - nss
+      - nvm
+      - openjdk
+      - openssl@1.1
+      - openvino
+      - pnpm
+      - python@3.12
+      - rbenv
+      - rswift
+      - php@7.4
+      - tokei
       - tree
-      # 必要なパッケージを追加
+      - zsh-autosuggestions
 
     homebrew_cask_packages:
       - docker

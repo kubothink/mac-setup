@@ -1,0 +1,5 @@
+- name: Install VS Code extensions
+  shell: code --install-extension {{ item }}
+  with_items:
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode

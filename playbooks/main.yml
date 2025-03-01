@@ -1,10 +1,69 @@
+---
 - name: Complete Mac Setup
   hosts: localhost
+  vars:
+    pause_between_playbooks: 2
 
-  import_playbook: homebrew.yml
-  import_playbook: macos.yml
-  import_playbook: dotfiles.yml
-  import_playbook: dev-tools.yml
-  import_playbook: vscode.yml
-  import_playbook: security.yml
-  import_playbook: apps-config.yml
+  tasks:
+    - name: Display setup introduction
+      ansible.builtin.debug:
+        msg:
+          - "Mac Setup Automation"
+          - "This playbook will configure your Mac with your preferred settings."
+          - "Make sure you have reviewed all configuration files before proceeding."
+
+    - name: Ask for confirmation to proceed
+      ansible.builtin.pause:
+        prompt: "Press Enter to start the setup, or Ctrl+C to cancel"
+
+    - name: Run Homebrew playbook
+      ansible.builtin.import_playbook: homebrew.yml
+
+    - name: Pause between playbooks
+      ansible.builtin.pause:
+        seconds: "{{ pause_between_playbooks }}"
+
+    - name: Run macOS playbook
+      ansible.builtin.import_playbook: macos.yml
+
+    - name: Pause between playbooks
+      ansible.builtin.pause:
+        seconds: "{{ pause_between_playbooks }}"
+
+    - name: Run dotfiles playbook
+      ansible.builtin.import_playbook: dotfiles.yml
+
+    - name: Pause between playbooks
+      ansible.builtin.pause:
+        seconds: "{{ pause_between_playbooks }}"
+
+    - name: Run dev-tools playbook
+      ansible.builtin.import_playbook: dev-tools.yml
+
+    - name: Pause between playbooks
+      ansible.builtin.pause:
+        seconds: "{{ pause_between_playbooks }}"
+
+    - name: Run VS Code playbook
+      ansible.builtin.import_playbook: vscode.yml
+
+    - name: Pause between playbooks
+      ansible.builtin.pause:
+        seconds: "{{ pause_between_playbooks }}"
+
+    - name: Run security playbook
+      ansible.builtin.import_playbook: security.yml
+
+    - name: Pause between playbooks
+      ansible.builtin.pause:
+        seconds: "{{ pause_between_playbooks }}"
+
+    - name: Run apps configuration playbook
+      ansible.builtin.import_playbook: apps-config.yml
+
+    - name: Setup completed successfully
+      ansible.builtin.debug:
+        msg:
+          - "Mac setup completed successfully!"
+          - "Please check examples/manual_checklist.md for additional manual steps."
+          - "Some settings may require a system restart to take effect."

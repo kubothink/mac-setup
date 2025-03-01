@@ -1,14 +1,35 @@
-- name: Ensure .ssh directory exists
-  file:
-    path: ~/.ssh
-    state: directory
-    mode: "0700"
+- name: Configure SSH and security settings
+  hosts: localhost
+  tasks:
+    - name: Ensure .ssh directory exists with proper permissions
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.ssh"
+        state: directory
+        mode: "0700"
 
-- name: Copy SSH keys
-  copy:
-    src: files/ssh/{{ item }}
-    dest: ~/.ssh/{{ item }}
-    mode: "0600"
-  with_items:
-    - id_rsa
-    - id_rsa.pub
+    - name: Copy SSH config file
+      ansible.builtin.copy:
+        src: files/private/ssh/config
+        dest: "{{ ansible_env.HOME }}/.ssh/config"
+        mode: "0600"
+      when: ansible_check_mode == false and lookup('first_found', {'files': ['files/private/ssh/config'], 'errors': 'ignore'})
+
+    - name: "Ask user to manually copy SSH keys"
+      ansible.builtin.debug:
+        msg: >
+          IMPORTANT SECURITY NOTICE:
+          For security reasons, SSH keys were not automatically copied.
+          Please manually copy your SSH private keys to ~/.ssh/ and ensure 
+          they have proper permissions (chmod 600).
+
+    - name: Configure macOS security settings
+      ansible.builtin.osx_defaults:
+        domain: com.apple.security
+        key: "{{ item.key }}"
+        type: "{{ item.type }}"
+        value: "{{ item.value }}"
+        state: present
+      with_items:
+        - { key: "GKAutoRelock", type: "bool", value: true }
+        - { key: "RequireAdminPasswordForSystemSettings", type: "bool", value: true }
+      ignore_errors: true

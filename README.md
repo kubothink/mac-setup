@@ -27,51 +27,20 @@ mac-setup/
 
 ### 1. On Your Current Mac
 
-1. Clone or create the project
+Run the setup script to collect your current environment configuration:
+
 ```bash
-mkdir mac-setup && cd mac-setup
-git init
+chmod +x setup.sh
+./setup.sh
 ```
 
-2. Collect dotfiles
-```bash
-mkdir -p files/dotfiles
-for file in .gitconfig .zshrc .vimrc .bash_profile .bashrc .profile .zprofile .zshenv .p10k.zsh .tmux.conf .ideavimrc .gemrc .npmrc .tool-versions; do
-  if [ -f ~/$file ]; then
-    cp ~/$file files/dotfiles/${file#.}
-    echo "Copied $file"
-  fi
-done
-```
-
-3. Export current environment data to private directory
-```bash
-mkdir -p files/private
-
-# Export Homebrew packages
-brew leaves > files/private/brew-leaves.txt
-brew list --cask > files/private/brew-casks.txt
-
-# Export version information
-ruby -v > files/private/ruby-version.txt
-python -v > files/private/python-version.txt
-node -v > files/private/node-version.txt
-rbenv versions > files/private/rbenv-versions.txt
-nvm ls > files/private/nvm-versions.txt
-
-# Export VS Code extensions
-code --list-extensions > files/private/vscode-extensions.txt
-
-# Export macOS defaults (optional)
-defaults read > files/private/macos-defaults.txt
-```
-
-4. Copy SSH configuration (if needed)
-```bash
-mkdir -p files/private/ssh
-cp -r ~/.ssh/config files/private/ssh/
-# Note: Be careful with SSH keys - consider transferring them separately
-```
+This script will:
+- Back up your current settings
+- Collect dotfiles from your home directory
+- Export environment configuration (Homebrew packages, versions, etc.)
+- Copy SSH configuration (Note: SSH keys must be transferred separately)
+- Install Homebrew if not already installed
+- Install Ansible
 
 ### 2. Transfer to New Mac
 
@@ -79,6 +48,7 @@ Choose one of the following methods to transfer the project:
 
 - AirDrop
 - USB drive
+- Git repository (private)
 - rsync command
 ```bash
 rsync -av mac-setup/ newmac:~/mac-setup/
@@ -86,14 +56,31 @@ rsync -av mac-setup/ newmac:~/mac-setup/
 
 ### 3. Setup on New Mac
 
-1. Run the initial setup script
+1. Install Xcode Command Line Tools (required for Homebrew)
+```bash
+xcode-select --install
+```
+
+2. Run the setup script
 ```bash
 cd mac-setup
 chmod +x setup.sh
 ./setup.sh
 ```
 
-2. Execute Ansible playbooks
+3. If `ansible-playbook` command is not found after running setup.sh:
+```bash
+# Open a new terminal window, or
+# For Apple Silicon Macs
+eval "$(/opt/homebrew/bin/brew shellenv)"
+# For Intel Macs
+eval "$(/usr/local/bin/brew shellenv)"
+
+# Then reinstall Ansible if needed
+brew install ansible
+```
+
+4. Execute Ansible playbooks
 ```bash
 ansible-playbook playbooks/main.yml
 ```
@@ -130,6 +117,51 @@ ansible-playbook playbooks/main.yml
 ### apps-config.yml
 - Configures application preferences
 
+## Troubleshooting
+
+### Homebrew or Ansible Not in PATH
+After installing Homebrew and Ansible, if commands are not found:
+
+1. Check if Homebrew is installed correctly:
+```bash
+# For Apple Silicon Macs
+ls /opt/homebrew/bin/brew
+# For Intel Macs
+ls /usr/local/bin/brew
+```
+
+2. Update your PATH manually:
+```bash
+# For Apple Silicon Macs
+eval "$(/opt/homebrew/bin/brew shellenv)"
+# For Intel Macs
+eval "$(/usr/local/bin/brew shellenv)"
+```
+
+3. Verify Ansible installation:
+```bash
+which ansible-playbook
+ansible-playbook --version
+```
+
+4. If Ansible is not installed, install it manually:
+```bash
+brew install ansible
+```
+
+### Permission Issues
+If you encounter permission issues:
+```bash
+# Fix permissions on Homebrew directories
+sudo chown -R $(whoami) $(brew --prefix)/*
+```
+
+### Xcode Command Line Tools
+If you see errors about missing command line tools:
+```bash
+xcode-select --install
+```
+
 ## Security Considerations
 
 - The `files/dotfiles/` and `files/private/` directories are git-ignored to prevent sensitive information from being committed
@@ -137,25 +169,9 @@ ansible-playbook playbooks/main.yml
 - Handle SSH keys and credentials separately
 - Review all configuration files before running playbooks to ensure no sensitive data is exposed
 
-## Private Data Management
+## Manual Configuration Checklist
 
-The `files/private/` directory is designed to store all personal and sensitive information that should not be committed to the repository. This includes:
-
-- API keys and tokens
-- Personal configuration data
-- Environment-specific settings
-- Version information
-- SSH configurations
-- Application preferences with sensitive data
-
-When sharing this repository, ensure that the `files/private/` directory is properly excluded from Git tracking via the `.gitignore` file.
-
-## Important Notes
-
-- Review configuration files before running playbooks
-- Backup existing configurations as they may be overwritten
-- Some applications may require manual configuration on first launch
-- Ensure sensitive information is handled securely
+After running the automated setup, check `examples/manual_checklist.md` for important settings that need to be configured manually.
 
 ## Prerequisites
 
